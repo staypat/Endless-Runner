@@ -1,6 +1,6 @@
 class Crystal extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, velocity){
-        super(scene, game.config.width, Phaser.Math.Between(210, 275), 'damage');
+        super(scene, game.config.width, Phaser.Math.Between(260, 290), 'damage');
         scene.add.existing(this);
         this.parentScene = scene;
         this.parentScene.add.existing(this);
