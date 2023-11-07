@@ -4,9 +4,9 @@ class Play extends Phaser.Scene {
     }
     create(){
         let menuConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Courier New',
             fontSize: '28px',
-            backgroundColor: '#F3B131',
+            backgroundColor: '#F3B141',
             color: '#843605',
             align: 'right',
             padding: {
@@ -14,7 +14,15 @@ class Play extends Phaser.Scene {
                 bottom: 5,
             },
             fixedWidth: 0
-        };
+        }
+        // bgm
+        this.bgm = this.sound.add('bgm', { 
+            mute: false,
+            volume: 0.25,
+            rate: 1,
+            loop: true 
+        });
+        this.bgm.play();
 
         // add background
         this.crystalBG = this.add.tileSprite(0, 0, 640, 190, 'background').setScale(2).setOrigin(0, 0);
@@ -43,7 +51,7 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-
+        
         this.crystalGroup = this.add.group({
             runChildUpdate: true
         });
@@ -52,37 +60,17 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         });
 
-        this.time.delayedCall(2000, () => { 
+        this.time.delayedCall(10000, () => { 
             this.addCrystal(); 
         });
 
-        this.time.delayedCall(2000, () => { // 10000
+        this.time.delayedCall(2000, () => {
             this.addSpike(); 
         });
 
         this.elapsedTime = 0;
-        this.highScore = this.add.text(128, 128, 'High Score: ' + highScoreVal, {
-            fontFamily: 'Courier', 
-            fontSize: '28px', 
-            backgroundColor: '#F3B131', 
-            color: '#843605', align: 'right', 
-            padding: { 
-                top: 5, 
-                bottom: 5,}, 
-                fixedWidth: 0
-            }).setOrigin(0.5);
-        this.timeText = this.add.text(game.config.width - 256, 128, 'Survival Time: ' + this.elapsedTime, {
-            fontFamily: 'Courier', 
-            fontSize: '28px', 
-            backgroundColor: '#F3B131', 
-            color: '#843605', 
-            align: 'right', 
-            padding: { 
-                top: 5, 
-                bottom: 5,
-            }, 
-            fixedWidth: 0
-        }).setOrigin(0.5);
+        this.highScore = this.add.text(128, 128, 'Best Time: ' + highScoreVal, menuConfig).setOrigin(0.5);
+        this.timeText = this.add.text(game.config.width - 256, 128, 'Survival Time: ' + this.elapsedTime, menuConfig).setOrigin(0.5);
         this.countdownTimer = this.time.addEvent({
             delay: 1000,
             callback: this.updateLevel,
@@ -92,16 +80,23 @@ class Play extends Phaser.Scene {
 
     }
     update(){
-        if (this.player.dead && Phaser.Input.Keyboard.JustDown(keyR)){
+        if(this.player.dead && Phaser.Input.Keyboard.JustDown(keyR)){
+            this.bgm.stop();
             this.scene.restart();
+        }
+        if(this.player.dead && Phaser.Input.Keyboard.JustDown(keyUP)){
+            this.bgm.stop();
+            this.scene.start('menuScene');
         }
         if(!this.player.dead){
             this.crystalBG.tilePositionX += 0.5;
             if(Phaser.Input.Keyboard.JustDown(keyUP) && !this.player.dead && !this.player.isJumping){
+                this.sound.play('jump', {volume: 0.25});
                 this.player.isJumping = true;
                 this.player.setVelocityY(-200);
             }
             if(Phaser.Input.Keyboard.JustDown(keyS) && !this.player.dead && !this.player.isShielding){
+                this.sound.play('shield', {volume: 0.25});
                 this.player.isShielding = true;
                 this.player.body.setSize(16, 24).setOffset(12,4);
                 this.player.anims.play('shielding');
@@ -139,7 +134,7 @@ class Play extends Phaser.Scene {
             this.elapsedTime += 1;
             this.timeText.setText('Survival Time: ' + this.elapsedTime);
             if(highScoreVal <= this.elapsedTime){
-                this.highScore.text = 'High Score: ' + this.elapsedTime;
+                this.highScore.text = 'Best Time: ' + this.elapsedTime;
                 highScoreVal = this.elapsedTime;
             }
             if((this.elapsedTime % 5) == 0){
@@ -156,10 +151,11 @@ class Play extends Phaser.Scene {
             player.setVelocity(0);
             obstacle.destroy();
         }else{
+            this.sound.play('death', {volume: 0.25});
             this.player.dead = true;
             this.player.destroy();
             this.timeText.setText('Survival Time: ' + this.elapsedTime);
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', {
+            this.add.text(game.config.width/2, game.config.height/2 - 96, 'GAME OVER', {
                 fontFamily: 'Courier',
                 fontSize: '28px',
                 backgroundColor: '#F3B131',
@@ -171,7 +167,19 @@ class Play extends Phaser.Scene {
                 },
                 fixedWidth: 0
             }).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', {
+            this.add.text(game.config.width/2, game.config.height/2 - 64, 'Press (R) to Restart', {
+                fontFamily: 'Courier',
+                fontSize: '28px',
+                backgroundColor: '#F3B131',
+                color: '#843605',
+                align: 'right',
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
+                fixedWidth: 0
+            }).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 - 32, 'Press UP ARROW to return to Main Menu', {
                 fontFamily: 'Courier',
                 fontSize: '28px',
                 backgroundColor: '#F3B131',
@@ -187,10 +195,11 @@ class Play extends Phaser.Scene {
     }
 
     spikeCollision(player, obstacle){
+        this.sound.play('death', {volume: 0.25});
         this.player.dead = true;
         this.player.destroy();
         this.timeText.setText('Survival Time: ' + this.elapsedTime);
-        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', {
+        this.add.text(game.config.width/2, game.config.height/2 - 96, 'GAME OVER', {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B131',
@@ -202,7 +211,19 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 0
         }).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', {
+        this.add.text(game.config.width/2, game.config.height/2 - 64, 'Press (R) to Restart', {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B131',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - 32, 'Press UP ARROW to return to Main Menu', {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B131',
