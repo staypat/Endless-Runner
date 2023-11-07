@@ -51,7 +51,7 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        
+
         this.crystalGroup = this.add.group({
             runChildUpdate: true
         });
