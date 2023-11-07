@@ -6,9 +6,9 @@ class Play extends Phaser.Scene {
         let menuConfig = {
             fontFamily: 'Courier New',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
+            backgroundColor: '#FACADE',
+            color: '#000000',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -77,7 +77,6 @@ class Play extends Phaser.Scene {
             callbackScope: this,
             loop: true
         });
-
     }
     update(){
         if(this.player.dead && Phaser.Input.Keyboard.JustDown(keyR)){
@@ -156,11 +155,11 @@ class Play extends Phaser.Scene {
             this.player.destroy();
             this.timeText.setText('Survival Time: ' + this.elapsedTime);
             this.add.text(game.config.width/2, game.config.height/2 - 96, 'GAME OVER', {
-                fontFamily: 'Courier',
+                fontFamily: 'Courier New',
                 fontSize: '28px',
-                backgroundColor: '#F3B131',
-                color: '#843605',
-                align: 'right',
+                backgroundColor: '#FACADE',
+                color: '#000000',
+                align: 'left',
                 padding: {
                     top: 5,
                     bottom: 5,
@@ -168,11 +167,11 @@ class Play extends Phaser.Scene {
                 fixedWidth: 0
             }).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 - 64, 'Press (R) to Restart', {
-                fontFamily: 'Courier',
+                fontFamily: 'Courier New',
                 fontSize: '28px',
-                backgroundColor: '#F3B131',
-                color: '#843605',
-                align: 'right',
+                backgroundColor: '#FACADE',
+                color: '#000000',
+                align: 'left',
                 padding: {
                     top: 5,
                     bottom: 5,
@@ -180,11 +179,11 @@ class Play extends Phaser.Scene {
                 fixedWidth: 0
             }).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 - 32, 'Press UP ARROW to return to Main Menu', {
-                fontFamily: 'Courier',
+                fontFamily: 'Courier New',
                 fontSize: '28px',
-                backgroundColor: '#F3B131',
-                color: '#843605',
-                align: 'right',
+                backgroundColor: '#FACADE',
+                color: '#000000',
+                align: 'left',
                 padding: {
                     top: 5,
                     bottom: 5,
@@ -200,11 +199,11 @@ class Play extends Phaser.Scene {
         this.player.destroy();
         this.timeText.setText('Survival Time: ' + this.elapsedTime);
         this.add.text(game.config.width/2, game.config.height/2 - 96, 'GAME OVER', {
-            fontFamily: 'Courier',
+            fontFamily: 'Courier New',
             fontSize: '28px',
-            backgroundColor: '#F3B131',
-            color: '#843605',
-            align: 'right',
+            backgroundColor: '#FACADE',
+            color: '#000000',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -212,11 +211,11 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - 64, 'Press (R) to Restart', {
-            fontFamily: 'Courier',
+            fontFamily: 'Courier New',
             fontSize: '28px',
-            backgroundColor: '#F3B131',
-            color: '#843605',
-            align: 'right',
+            backgroundColor: '#FACADE',
+            color: '#000000',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -224,11 +223,11 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - 32, 'Press UP ARROW to return to Main Menu', {
-            fontFamily: 'Courier',
+            fontFamily: 'Courier New',
             fontSize: '28px',
-            backgroundColor: '#F3B131',
-            color: '#843605',
-            align: 'right',
+            backgroundColor: '#FACADE',
+            color: '#000000',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
